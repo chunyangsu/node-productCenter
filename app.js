@@ -5,9 +5,13 @@ const Koa = require('koa')
 const cors = require('koa2-cors')
 // 引入routes文件夹下的index.js文件
 const routes = require('./routes')
+// 引入 bodyparser中间件
+const bodyParser = require('koa-bodyparser')
 
 //2. 创建实例
 const app = new Koa()
+
+app.use(bodyParser())
 
 //3. 使用实例
 app.use(async (ctx, next) => {
@@ -19,7 +23,7 @@ app.use(async (ctx, next) => {
 // 使用和配置域名请求
 app.use(
   cors({
-    origin: function (ctx) {
+    origin: function(ctx) {
       if (ctx.url === '/test') {
         return '*' // 允许来自所有域名的请求
       }
@@ -38,5 +42,5 @@ routes(app)
 
 // 4. 设置端口号
 app.listen(4000, () => {
-  console.log('产品中心的服务启动了！');
+  console.log('产品中心的服务启动了！')
 })

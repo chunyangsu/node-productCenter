@@ -7,11 +7,11 @@ const {
   getProductList
 } = require('../controllers/product')
 
-// 总路由添加前缀/product，总地址变为http://localhost:4000/product
-router.prefix('/product')
+// 总路由添加前缀/productCenter，总地址变为http://localhost:4000/productCenter
+router.prefix('/productCenter')
 
 // 获取产品列表的路由
-router.get('/list', getProductList)
+router.get('/product/list', getProductList)
 
 // 导出路由
 module.exports = router
