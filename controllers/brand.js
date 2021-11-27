@@ -9,7 +9,13 @@ let dataInfo = {
 class Brand {
   // 获取品牌列表
   async getBrandList(ctx) {
-    var sql = 'select * from `brand_list`'
+    const query = ctx.request.query
+    if (query.name && query.name !== '') {
+      // 查询条件不为空
+      var sql = `select * from brand_list where name = '${query.name}'`
+    } else {
+      var sql = 'select * from `brand_list`'
+    }
     var result = await dataBase.query(sql)
     dataInfo.data = result
     ctx.response.body = dataInfo
