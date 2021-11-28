@@ -34,6 +34,39 @@ class Product {
     // 将post传的参数返回客户端
     ctx.body = tempData
   }
+
+  // 获取产品详情
+  async getProductDetail(ctx) {
+    const {
+      id
+    } = ctx.params // 获取参数id
+    let sql = `select * from product_list where id = '${id}'`
+    const result = await dataBase.query(sql)
+    // dataInfo.data = result
+    // 将结果返回客户端
+    ctx.body = result[0]
+  }
+
+  // 编辑产品
+  async updateProduct(ctx) {
+    const tempData = ctx.request.body
+    let sql = 'update product_list set'
+    sql += ` name='${tempData.name}',brand_id='${tempData.brand_id}' where id='${tempData.id}'`
+    dataBase.query(sql)
+    // 将post传的参数返回客户端
+    ctx.body = tempData
+  }
+
+  // 删除产品
+  async deleteProduct(ctx) {
+    const {
+      id
+    } = ctx.params // 获取参数id
+    let sql = `delete from product_list where id = '${id}'`
+    dataBase.query(sql)
+    // 将参数返回客户端
+    ctx.body = ctx.params
+  }
 }
 
 module.exports = new Product()

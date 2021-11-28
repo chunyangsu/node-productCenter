@@ -23,7 +23,7 @@ app.use(async (ctx, next) => {
 // 使用和配置域名请求
 app.use(
   cors({
-    origin: function(ctx) {
+    origin: function (ctx) {
       if (ctx.url === '/test') {
         return '*' // 允许来自所有域名的请求
       }
