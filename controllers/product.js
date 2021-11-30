@@ -19,10 +19,11 @@ class Product {
       var sql = `select * from product_list where name like '%${query.name}%' order by id desc`
     } else {
       var sql = 'select * from `product_list` order by id desc'
+      // var sql = 'select product_list.*, brand_list.* from product_list left join brand_list on product_list.brand_id = brand_list.id'
     }
-    var result = await dataBase.query(sql)
-    dataInfo.data = result
+    dataInfo.data = await dataBase.query(sql)
     ctx.response.body = dataInfo
+    // ctx.response.body = await dataBase.query(sql)
   }
 
   // 新增产品
