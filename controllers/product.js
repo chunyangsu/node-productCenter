@@ -16,14 +16,15 @@ class Product {
     dataInfo.query = query
     if (query.name && query.name !== '') {
       // 查询条件不为空
-      var sql = `select * from product_list where name like '%${query.name}%' order by id desc`
+      var sql =
+        `select product_list.*, brand_list.name as brand_name from product_list left join brand_list on product_list.brand_id = brand_list.id where product_list.name like '%${query.name}%' order by id desc`
     } else {
-      var sql = 'select * from `product_list` order by id desc'
-      // var sql = 'select product_list.*, brand_list.* from product_list left join brand_list on product_list.brand_id = brand_list.id'
+      // 查询条件为空的时候
+      var sql =
+        `select product_list.*, brand_list.name as brand_name from product_list left join brand_list on product_list.brand_id = brand_list.id order by id desc`
     }
     dataInfo.data = await dataBase.query(sql)
     ctx.response.body = dataInfo
-    // ctx.response.body = await dataBase.query(sql)
   }
 
   // 新增产品
