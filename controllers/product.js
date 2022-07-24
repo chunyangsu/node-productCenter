@@ -31,7 +31,9 @@ class Product {
   async createProduct(ctx) {
     const tempData = ctx.request.body
     let sql = 'insert into product_list'
-    sql += ` (id, name, brand_id) values ('${tempData.id}','${tempData.name}','${tempData.brand_id}')`
+    // sql += ` (id, name, brand_id) values ('${tempData.id}','${tempData.name}','${tempData.brand_id}')`
+    // 连接阿里云数据库时，id不能为空，否则添加数据失败，所以这里会去掉id
+    sql += ` (name, brand_id) values ('${tempData.name}','${tempData.brand_id}')`
     dataBase.query(sql)
     // 将post传的参数返回客户端
     ctx.body = tempData
