@@ -7,6 +7,9 @@ const cors = require('koa2-cors')
 const routes = require('./routes')
 // 引入 bodyparser中间件
 const bodyParser = require('koa-bodyparser')
+// 引入koa-jwt中间件，用于校验token
+const koajwt = require('koa-jwt')
+const secret = 'scy1314568'
 
 //2. 创建实例
 const app = new Koa()
@@ -36,6 +39,32 @@ app.use(
     exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'] //设置获取其他自定义字段
   })
 )
+
+/**
+ * koa-jwt 校验token
+ * secret: 密钥
+ * unless：过滤掉不需要校验的api，如登录接口
+ * token 验证失败的时候会抛出401错误，因此需要添加错误处理，而且要放在 app.use(koajwt()) 之前，否则不执行
+ * 如果请求时没有token或者token过期，则会返回401
+ */
+
+// 错误处理
+app.use((ctx, next) => {
+  return next().catch((err) => {
+    if (err.status === 401) {
+      ctx.status = 401;
+      ctx.body = 'Protected resource, use Authorization header to get access\n';
+    } else {
+      throw err;
+    }
+  })
+})
+
+app.use(koajwt({
+  secret: secret
+}).unless({
+  path: [/^\/login/]
+}))
 
 // 执行routes方法，把app传进去
 routes(app)

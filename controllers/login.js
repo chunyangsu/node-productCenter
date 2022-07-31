@@ -28,8 +28,8 @@ class Login {
        */
       const payload = {
         id: result[0].id, // 用户id
-        name: result[0].name, // 用户姓名
-        mobile: result[0].mobile // 手机号
+        name: result[0].name // 用户姓名
+        // mobile: result[0].mobile // 手机号
       }
       const secret = 'scy1314568'
       const token = jwt.sign(payload, secret, {
@@ -37,20 +37,18 @@ class Login {
       })
       // 返回客户端的数据
       ctx.body = {
-        code: 200,
-        msg: '登录成功',
-        dataInfo: {
-          data: result[0], // 用户信息
-          token: token
-        }
+        // code: 200,
+        // msg: '登录成功',
+        data: result[0], // 用户信息
+        token: token
       }
     } else {
       // 用户不存在
       ctx.body = {
         code: 400,
-        msg: "登录失败",
-      };
-      return;
+        msg: '登录失败'
+      }
+      return
     }
   }
 }
